@@ -1,0 +1,60 @@
+{
+  "name": "@crpt/react-dadata",
+  "version": "0.0.0",
+  "description": "react-dadata is hinted input fields react component",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "css",
+    "es",
+    "lib",
+    "umd"
+  ],
+  "scripts": {
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "build": "nwb build-react-component",
+    "clean": "nwb clean-module && nwb clean-demo",
+    "start": "nwb serve-react-demo",
+    "test": "nwb test-react",
+    "test:coverage": "nwb test-react --coverage",
+    "test:watch": "nwb test-react --server",
+    "jest": "jest"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "16.x"
+  },
+  "devDependencies": {
+    "@crpt/react-input": "^1.0.15",
+    "@crpt/react-select": "^1.0.23",
+    "@storybook/addon-actions": "^3.4.8",
+    "@storybook/addon-knobs": "^3.4.8",
+    "@storybook/react": "^3.4.8",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.5",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.4",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.10.0",
+    "jest": "^23.2.0",
+    "nwb": "0.21.x",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "styled-components": "^3.3.3"
+  },
+  "contributors": [
+    "Aleksey Zakharov"
+  ],
+  "author": "",
+  "homepage": "https://github.com/crptteam/react-dadata",
+  "license": "MIT",
+  "repository": "https://github.com/crptteam/react-dadata",
+  "keywords": [
+    "react-component"
+  ]
+}
