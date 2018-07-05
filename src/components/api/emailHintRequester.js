@@ -1,5 +1,6 @@
 /* This component requests email hints from dadata and returns array of hints (string) */
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 const propTypes = {
   apiKey: PropTypes.string.isRequired,
@@ -16,26 +17,20 @@ const emailHintRequester = (props) => {
     onHintsReceive,
   } = props;
   PropTypes.checkPropTypes(propTypes, props, 'prop', 'emailHintRequester');
-  fetch(requestAddress, {
-    method: 'POST',
+  axios({
+    method: 'post',
+    url: requestAddress,
     headers: {
-      'Content-Type': 'application/json',
       Accept: 'application/json',
       Authorization: `Token ${apiKey}`,
     },
-    body: JSON.stringify({
+    responseType: 'json',
+    data: {
       query,
-    }),
+    },
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw Error(response.statusText);
-      }
-      return response;
-    })
-    .then(response => response.json())
     .then((responsedJSON) => {
-      const emainHints = responsedJSON.suggestions.map(item => item.value);
+      const emainHints = responsedJSON.data.suggestions.map(item => item.value);
       if (onHintsReceive) onHintsReceive(emainHints);
     })
     .catch(error => console.log(`Was requested hint for email. Body = ${query}. Received error: ${error}`));

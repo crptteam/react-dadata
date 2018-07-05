@@ -20,7 +20,9 @@
     "test:watch": "nwb test-react --server",
     "jest": "jest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
   "peerDependencies": {
     "react": "16.x"
   },
