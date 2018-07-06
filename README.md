@@ -25,4 +25,4 @@ import { HintedEmailInput } from "@crpt/react-dadata";
 | `hintRequestAddress: string`  | IP address where hints will be requested. |   |
 | `defaultText: string`  | Text in input field |   |
 
-Additional properties you can get from @crpt/react-select. __Value property is ignored__
+Additional properties you can get from @crpt/react-select. __`values` property is ignored__
