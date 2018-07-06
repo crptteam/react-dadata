@@ -4,30 +4,29 @@
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-#react-data
-Component for input any data using hints from dadata.ru service.
+Collection of components for input any data using hints from dadata.ru service.<br>
+Contains:
+- _HintedEmailInput_ - hinted input for emails
 
-###Install
-```
-npm i --save-dev @crpt/react-dadata
-```
-## Usage
+## Install ##
+`npm i --save @crpt/react-dadata`
+
+## HintedEmailInput ##
+### Usage ###
 ```javascript
-import { Form } from  "@crpt/react-form"; 
-import { DatePicker } from  "@crpt/react-datepicker"; 
-
-<Form onSubmit={vals => console.log('vals', vals)}>
-    <DatePicker name="date" />
-</Form>
+import { HintedEmailInput } from "@crpt/react-dadata"; 
+...
+<HintedEmailInput
+  hintRequestApiKey={value}
+  hintRequestAddress={value}
+  defaultText="textInInputField"
+/>
 ```
 
-###HintedEmailInput
+| PropName | Description | Example |
+|---|---|---|
+| `hintRequestApiKey: string`  | {API_KEY} for dadata.ru service. |   |
+| `hintRequestAddress: string`  | IP address where hints will be requested. |   |
+| `defaultText: string`  | Text in input field |   |
 
-[build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
-[build]: https://travis-ci.org/user/repo
-
-[npm-badge]: https://img.shields.io/npm/v/npm-package.png?style=flat-square
-[npm]: https://www.npmjs.org/package/npm-package
-
-[coveralls-badge]: https://img.shields.io/coveralls/user/repo/master.png?style=flat-square
-[coveralls]: https://coveralls.io/github/user/repo
+Additional properties you can get from @crpt/react-select. __Value property is ignored__
