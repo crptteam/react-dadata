@@ -4,7 +4,24 @@
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-Describe react-dadata here.
+#react-data
+Component for input any data using hints from dadata.ru service.
+
+###Install
+```
+npm i --save-dev @crpt/react-dadata
+```
+## Usage
+```javascript
+import { Form } from  "@crpt/react-form"; 
+import { DatePicker } from  "@crpt/react-datepicker"; 
+
+<Form onSubmit={vals => console.log('vals', vals)}>
+    <DatePicker name="date" />
+</Form>
+```
+
+###HintedEmailInput
 
 [build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
 [build]: https://travis-ci.org/user/repo
