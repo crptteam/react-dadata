@@ -1,9 +1,5 @@
 # react-dadata
 
-[![Travis][build-badge]][build]
-[![npm package][npm-badge]][npm]
-[![Coveralls][coveralls-badge]][coveralls]
-
 Collection of components for input any data using hints from dadata.ru service.<br>
 Contains:
 - _HintedEmailInput_ - hinted input for emails
