@@ -13,8 +13,8 @@ Contains:
 import { HintedEmailInput } from "@crpt/react-dadata"; 
 ...
 <HintedEmailInput
-  hintRequestApiKey={value}
-  hintRequestAddress={value}
+  apiKey={value}
+  apiURL={value}
   defaultText="textInInputField"
 />
 ```
