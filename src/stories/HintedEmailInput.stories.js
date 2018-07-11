@@ -15,16 +15,16 @@ storiesWithoutHits.add('simple without hits', () => (
 
 storiesWithoutHits.add('with placeholder', () => (
   <HintedEmailInput
-    hintRequestApiKey={DADATA_KEY}
-    hintRequestAddress={EMAIL_HINT_SERVER_ADDRESS}
+    apiKey={DADATA_KEY}
+    apiURL={EMAIL_HINT_SERVER_ADDRESS}
     placeholder="Placeholder value"
   />
 ));
 
 storiesWithoutHits.add('with defaultText', () => (
   <HintedEmailInput
-    hintRequestApiKey={DADATA_KEY}
-    hintRequestAddress={EMAIL_HINT_SERVER_ADDRESS}
+    apiKey={DADATA_KEY}
+    apiURL={EMAIL_HINT_SERVER_ADDRESS}
     defaultText="email@text.mk"
   />
 ));

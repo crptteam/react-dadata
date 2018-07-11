@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const propTypes = {
   apiKey: PropTypes.string.isRequired,
-  requestAddress: PropTypes.string.isRequired,
+  apiURL: PropTypes.string.isRequired,
   query: PropTypes.string.isRequired,
   onHintsReceive: PropTypes.func,
 };
@@ -12,14 +12,14 @@ const propTypes = {
 const emailHintRequester = (props) => {
   const {
     apiKey,
-    requestAddress,
+    apiURL,
     query,
     onHintsReceive,
   } = props;
   PropTypes.checkPropTypes(propTypes, props, 'prop', 'emailHintRequester');
   axios({
     method: 'post',
-    url: requestAddress,
+    url: apiURL,
     headers: {
       Accept: 'application/json',
       Authorization: `Token ${apiKey}`,

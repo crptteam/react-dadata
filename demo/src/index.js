@@ -5,8 +5,8 @@ import { ThemeProvider } from 'styled-components';
 import defaultTheme from '../../src/theme';
 import { HintedEmailInput } from '../../src';
 import {
-  DADATA_KEY,
-  EMAIL_HINT_SERVER_ADDRESS,
+  API_KEY,
+  API_URL,
 } from './constants';
 
 const Demo = () => (
@@ -17,8 +17,8 @@ const Demo = () => (
     <HintedEmailInput
       defaultText="text@text.tx"
       inline
-      hintRequestApiKey={DADATA_KEY}
-      hintRequestAddress={EMAIL_HINT_SERVER_ADDRESS}
+      apiKey={API_KEY}
+      apiURL={API_URL}
       placeholder="email"
       onKeyPress={event => console.log('Demo: was pressed key ', event.key)}
       onUpdate={event => console.log('Demo: was updated value ', event)}

@@ -15,8 +15,8 @@ class HintedEmailInput extends Component {
 
   static propTypes = {
     defaultText: PropTypes.string,
-    hintRequestApiKey: PropTypes.string,
-    hintRequestAddress: PropTypes.string,
+    apiKey: PropTypes.string,
+    apiURL: PropTypes.string,
     onKeyPress: PropTypes.func,
     onUpdate: PropTypes.func,
     onChange: PropTypes.func,
@@ -24,8 +24,8 @@ class HintedEmailInput extends Component {
 
   static defaultProps = {
     defaultText: '',
-    hintRequestApiKey: '',
-    hintRequestAddress: '',
+    apiKey: '',
+    apiURL: '',
     onKeyPress: undefined,
     onUpdate: undefined,
     onChange: undefined,
@@ -109,15 +109,15 @@ class HintedEmailInput extends Component {
   }
 
   requestHint = () => {
-    const { hintRequestAddress, hintRequestApiKey } = this.props;
-    if (hintRequestAddress === '') {
+    const { apiURL, apiKey } = this.props;
+    if (apiURL === '') {
       return;
     }
 
     const { text } = this.state;
     emailHintRequester({
-      requestAddress: hintRequestAddress,
-      apiKey: hintRequestApiKey,
+      apiURL,
+      apiKey,
       query: text.title,
       onHintsReceive: this.receivedHint,
     });
