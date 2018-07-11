@@ -21,8 +21,8 @@ import { HintedEmailInput } from "@crpt/react-dadata";
 
 | PropName | Description | Example |
 |---|---|---|
-| `hintRequestApiKey: string`  | {API_KEY} for dadata.ru service. |   |
-| `hintRequestAddress: string`  | IP address where hints will be requested. |   |
-| `defaultText: string`  | Text in input field |   |
+| `apiKey: string`  | Api key of hints service. |   |
+| `apiURL: string`  | IP address of hints service. |   |
+| `defaultText: string`  | Text will showed in the input field |   |
 
 Additional properties you can get from @crpt/react-select. __`values` property is ignored__
