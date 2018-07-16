@@ -2,8 +2,8 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import {
-  DADATA_KEY,
-  EMAIL_HINT_SERVER_ADDRESS,
+  API_KEY,
+  API_URL,
 } from '../../demo/src/constants';
 import HintedEmailInput from '../components/HintedEmailInput';
 
@@ -15,16 +15,17 @@ storiesWithoutHits.add('simple without hits', () => (
 
 storiesWithoutHits.add('with placeholder', () => (
   <HintedEmailInput
-    apiKey={DADATA_KEY}
-    apiURL={EMAIL_HINT_SERVER_ADDRESS}
+    apiKey={API_KEY}
+    apiURL={API_URL}
     placeholder="Placeholder value"
+    savePlaceholder
   />
 ));
 
 storiesWithoutHits.add('with defaultText', () => (
   <HintedEmailInput
-    apiKey={DADATA_KEY}
-    apiURL={EMAIL_HINT_SERVER_ADDRESS}
+    apiKey={API_KEY}
+    apiURL={API_URL}
     defaultText="email@text.mk"
   />
 ));

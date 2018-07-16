@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withTheme } from "styled-components";
+import { withTheme } from 'styled-components';
 
 import {
   KEYPRESS_TO_HINT_REQUEST_TIME_MS,
   MIN_CHARACTERS_FOR_HINT,
   MAX_HINT_ARRAY_LENGTH,
+  BASE_HINT_ID,
 } from './constants';
 import { emailHintRequester } from '../api/index';
-import HintedEmailInputView from './HintedEmailInputView';
+import HintedEmailInputView from './HintedEmailInputView/index';
 
 class HintedEmailInput extends Component {
   displayName = 'HintedEmailInput';
@@ -41,14 +42,16 @@ class HintedEmailInput extends Component {
       ...othersProps
     } = this.props;
 
-    this.state = {
+    this.defaultState = {
       text: {
-        id: 1,
+        id: BASE_HINT_ID,
         title: defaultText,
       },
       hints: [],
     };
-    this.requestDalayTimer = null;
+
+    this.state = this.defaultState;
+    this.requestDelayTimer = null;
 
     this.callbacks = {
       onUpdate,
@@ -60,9 +63,15 @@ class HintedEmailInput extends Component {
   }
 
   componentWillUnmount() {
-    if (this.requestDalayTimer) {
-      clearTimeout(this.requestDalayTimer);
+    if (this.requestDelayTimer) {
+      clearTimeout(this.requestDelayTimer);
     }
+  }
+
+  clear = () => {
+    this.setState(this.defaultState);
+    if (onChange) { onChange(this.defaultState.text.title) };
+    if (onUpdate) { onUpdate(this.defaultState.text.title) };
   }
 
   onKeyPress = (event) => {
@@ -70,7 +79,7 @@ class HintedEmailInput extends Component {
     if ((event.charCode === 13)
       || (event.keyCode === 13)
       || (event.key === 'Enter')) {
-      clearTimeout(this.requestDalayTimer);
+      clearTimeout(this.requestDelayTimer);
       if (onUpdate) { onUpdate(event); }
     }
     if (onKeyPress) { onKeyPress(event); }
@@ -81,31 +90,31 @@ class HintedEmailInput extends Component {
     const { onChange } = this.callbacks;
     this.setState({
       text: {
-        id: 1,
+        id: BASE_HINT_ID,
         title: value,
       },
     },
     () => { if (onChange) { onChange(value); } });
 
     if (value.length >= MIN_CHARACTERS_FOR_HINT) {
-      if (this.requestDalayTimer) {
-        clearTimeout(this.requestDalayTimer);
+      if (this.requestDelayTimer) {
+        clearTimeout(this.requestDelayTimer);
       }
-      this.requestDalayTimer = setTimeout(this.requestHint, KEYPRESS_TO_HINT_REQUEST_TIME_MS);
+      this.requestDelayTimer = setTimeout(this.requestHint, KEYPRESS_TO_HINT_REQUEST_TIME_MS);
     }
   }
 
   onUpdate = (event) => {
     const { onUpdate } = this.callbacks;
-    clearTimeout(this.requestDalayTimer);
+    clearTimeout(this.requestDelayTimer);
     if (onUpdate) { onUpdate(event.text); }
   }
 
   onSelect = (event) => {
-    const { onUpdate, onSelect } = this.callbacks;
+    const { onUpdate } = this.callbacks;
     const selectedText = event ? event.title : '';
     if (onUpdate) { onUpdate(selectedText); }
-    if (onSelect) { onSelect(event); }
+    this.onChange(selectedText);
   }
 
   requestHint = () => {
@@ -129,20 +138,34 @@ class HintedEmailInput extends Component {
       ? MAX_HINT_ARRAY_LENGTH
       : updatedHints.length;
 
-    this.setState({ hints: updatedHints.map((item, k) => ({ id: k + 2, title: item })) });
+    this.setState({
+      hints: updatedHints.map(item => ({
+        id: 0,
+        title: item,
+      }))
+    });
   }
 
   render() {
     const { hints, text } = this.state;
-    const hintList = [{ ...text }, ...hints];
+    const filteredHints = hints !== []
+      ? hints.filter(item => item.title !== text.title)
+      : [];
+
+    const hintList = text.title !== ''
+      ? ([{ ...text }, ...filteredHints])
+      : [];
+
     return (
       <HintedEmailInputView
         onUpdate={this.onUpdate}
         onChange={this.onChange}
         onKeyPress={this.onKeyPress}
         onSelect={this.onSelect}
-        selectedId={1}
+        selectedId={hintList.length !== 0 ? BASE_HINT_ID : null}
+        hideOptionList={hintList.length < 2}
         hints={hintList}
+        fiterDisable
         {...this.othersProps}
       />
     );
