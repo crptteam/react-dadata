@@ -64,6 +64,7 @@ __Note 1.__ Type can be one of:
 - ADDRESS_HINT_REQUESTER_FULL
 
 __Note 2.__ Querty object is:
+
 | PropName | Type |
 |---|---|
 | fullAddress | string |
@@ -75,6 +76,5 @@ __Note 2.__ Querty object is:
 | street | string |
 | house | string |
 | block | string |
-
 
 Additional properties you can get from @crpt/react-select. __`values` property is ignored__
