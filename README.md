@@ -49,7 +49,7 @@ import { HintedAddresslInput } from "@crpt/react-dadata";
 | `apiURL: string`  | IP address of hints service. |   |
 | `defaultText: string`  | Text will showed in the input field |   |
 | `type: string` | see note1. | |
-| `querty: object` | see note2. | |
+| `query: object` | see note2. | |
 | `onUpdate: function` | Calling with object: `{type: {note1} value: 'smth', fias: 'smth'}` 
 
 __Note 1.__ Type can be one of:
@@ -63,7 +63,7 @@ __Note 1.__ Type can be one of:
 - ADDRESS_HINT_REQUESTER_BLOCK
 - ADDRESS_HINT_REQUESTER_FULL
 
-__Note 2.__ Querty object is:
+__Note 2.__ Query object is:
 
 | PropName | Type |
 |---|---|
