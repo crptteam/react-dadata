@@ -65,7 +65,7 @@ __Note 1.__ Type can be one of:
 
 __Note 2.__ Querty object is:
 | PropName | Type |
-|---|---|---|
+|---|---|
 | fullAddress | string |
 | postalCode | string |
 | regionCode | string |
