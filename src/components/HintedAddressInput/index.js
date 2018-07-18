@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withTheme } from 'styled-components';
 
 import {
   KEYPRESS_TO_HINT_REQUEST_TIME_MS,
@@ -71,11 +70,9 @@ class HintedAddressInput extends Component {
     const {
       defaultText,
       type,
-      query,
       onChange,
       onUpdate,
       onKeyPress,
-      ...othersProps
     } = this.props;
 
     this.defaultState = {
@@ -85,7 +82,6 @@ class HintedAddressInput extends Component {
       },
       hints: [],
       type,
-      fiasId: '',
     };
 
     this.state = this.defaultState;
@@ -96,8 +92,6 @@ class HintedAddressInput extends Component {
       onChange,
       onKeyPress,
     };
-
-    this.othersProps = othersProps;
   }
 
   componentWillUnmount() {
@@ -148,11 +142,11 @@ class HintedAddressInput extends Component {
 
   onSelect = (event) => {
     const { onUpdate } = this.callbacks;
-    const { type, fiasId } = this.state;
+    const { type } = this.state;
     const selectedObject = {
         type,
         value: event ? event.title: '',
-        fias: fiasId,
+        fias: event ? event.fias: '',
       };
     if (onUpdate) { onUpdate(selectedObject); }
     this.onChange(selectedObject.value);
@@ -162,19 +156,21 @@ class HintedAddressInput extends Component {
     if (type === ADDRESS_HINT_REQUESTER_FULL) {
       return inputedText;
     }
+    const newQuery = {...query};
+    newQuery[type] = inputedText;
 
     const retArray = [];
     switch (type) {
-      case ADDRESS_HINT_REQUESTER_BLOCK: retArray.push(query.block);
-      case ADDRESS_HINT_REQUESTER_HOUSE: retArray.push(query.house);
-      case ADDRESS_HINT_REQUESTER_STREET: retArray.push(query.street);
-      case ADDRESS_HINT_REQUESTER_SETTLEMENT: retArray.push(query.settlement);
-      case ADDRESS_HINT_REQUESTER_CITY: retArray.push(query.city);
-      case ADDRESS_HINT_REQUESTER_AREA: retArray.push(query.area);
-      case ADDRESS_HINT_REQUESTER_REGION_CODE: retArray.push(query.regionCode);
-      case ADDRESS_HINT_REQUESTER_POSTAL_CODE: retArray.push(query.postalCode);
+      case ADDRESS_HINT_REQUESTER_BLOCK: retArray.push(newQuery.block);
+      case ADDRESS_HINT_REQUESTER_HOUSE: retArray.push(newQuery.house);
+      case ADDRESS_HINT_REQUESTER_STREET: retArray.push(newQuery.street);
+      case ADDRESS_HINT_REQUESTER_SETTLEMENT: retArray.push(newQuery.settlement);
+      case ADDRESS_HINT_REQUESTER_CITY: retArray.push(newQuery.city);
+      case ADDRESS_HINT_REQUESTER_AREA: retArray.push(newQuery.area);
+      case ADDRESS_HINT_REQUESTER_REGION_CODE: retArray.push(newQuery.regionCode);
+      case ADDRESS_HINT_REQUESTER_POSTAL_CODE: retArray.push(newQuery.postalCode);
     }
-    return `${retArray.reverse().join(' ')} ${inputedText}`;
+    return retArray.reverse().join(' ');
   }
 
   requestHint = () => {
@@ -201,15 +197,25 @@ class HintedAddressInput extends Component {
       : updatedHints.length;
 
     this.setState({
-      fiasId: updatedHints[0] ? updatedHints[0].fiasId : '',
       hints: updatedHints.map(item => ({
         id: 0,
         title: item.title,
+        fias: item.fiasId,
       }))
     });
   }
 
   render() {
+    const {
+      defaultText,
+      type,
+      query,
+      onChange,
+      onUpdate,
+      onKeyPress,
+      ...othersProps
+    } = this.props;
+
     const { hints, text } = this.state;
     const filteredHints = hints !== []
       ? hints.filter(item => item.title !== text.title)
@@ -229,11 +235,11 @@ class HintedAddressInput extends Component {
         hideOptionList={hintList.length < 2}
         hints={hintList}
         filterDisable
-        {...this.othersProps}
+        {...othersProps}
       />
     );
   }
 }
 
-export default withTheme(HintedAddressInput);
+export default HintedAddressInput;
 

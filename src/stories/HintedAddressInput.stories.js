@@ -20,25 +20,33 @@ import {
 
 const storiesAddressInput = storiesOf('HintedAddressInput', module);
 
-storiesAddressInput.add('full address', () => (
-  <HintedAddressInput
-    placeholder="Address"
-    apiKey={API_KEY}
-    apiURL={API_ADDR_URL}
-    type={ADDRESS_HINT_REQUESTER_FULL}
-    query={{
-      fullAddress: '',
-      postalCode: '',
-      regionCode: '',
-      area: '',
-      city: '',
-      settlement: '',
-      street: '',
-      house: '',
-      block: '',
-    }}
-  />
-));
+storiesAddressInput.add('full address', () => {
+  function onUpdate(addressObject) {
+    console.log('Type = ', addressObject.type);
+    console.log('Address = ', addressObject.value);
+    console.log('Fias = ', addressObject.fias);
+  }
+  return (
+    <HintedAddressInput
+      placeholder="Address"
+      apiKey={API_KEY}
+      apiURL={API_ADDR_URL}
+      type={ADDRESS_HINT_REQUESTER_FULL}
+      onUpdate={onUpdate}
+      query={{
+        fullAddress: '',
+        postalCode: '',
+        regionCode: '',
+        area: '',
+        city: '',
+        settlement: '',
+        street: '',
+        house: '',
+        block: '',
+      }}
+    />
+  );
+});
 
 storiesAddressInput.add('separated fields', () => {
   let query = {
@@ -53,11 +61,9 @@ storiesAddressInput.add('separated fields', () => {
     block: '',
   };
 
-  let fiasCode = '';
-
   function onUpdate({ type, value, fias }) {
+    console.log('onUpdate: ', type, value, fias);
     query[type] = value;
-    fiasCode = fias;
   }
 
   const types = [
@@ -82,10 +88,5 @@ storiesAddressInput.add('separated fields', () => {
       onUpdate={onUpdate}
     />
   ));
-  return (
-    <div>
-      Фиас = {fiasCode}
-      {addressInputsList}
-    </div>
-  );
+  return addressInputsList;
 });

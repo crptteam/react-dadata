@@ -24,15 +24,16 @@ export default class HintedAddressInputView extends Component {
     return mergedArray;
   }
   
-  updateHintsForShown = (hints) => {
+  updateHintsForShow = (hints) => {
     if (hints.length === 0) { return []; }
     const inputText = hints[0].title;
 
-    return hints.map(item => ({
-      id: item.id,
-      title: item.title,
-      titleOption: this.highlightOverlap({ str: item.title, base: inputText }),
-    }));
+    const copiedHints = [...hints];
+    copiedHints.forEach(item => {
+      item.titleOption = this.highlightOverlap({ str: item.title, base: inputText });
+    });
+
+    return copiedHints;
   }
 
   render() {
@@ -41,7 +42,8 @@ export default class HintedAddressInputView extends Component {
       ...othersProps
     } = this.props;
 
-    const hintList = this.updateHintsForShown(hints);
+    const hintList = this.updateHintsForShow(hints);
+
     return (
       <SingleSelect
         withoutIcon
