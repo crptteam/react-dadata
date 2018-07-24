@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withTheme } from 'styled-components';
 
 import {
   KEYPRESS_TO_HINT_REQUEST_TIME_MS,
@@ -8,25 +7,59 @@ import {
   MAX_HINT_ARRAY_LENGTH,
   BASE_HINT_ID,
 } from './constants';
-import { emailHintRequester } from '../api/index';
-import HintedEmailInputView from './HintedEmailInputView/index';
 
-class HintedEmailInput extends Component {
-  displayName = 'HintedEmailInput';
+import {
+  ADDRESS_HINT_REQUESTER_POSTAL_CODE,
+  ADDRESS_HINT_REQUESTER_REGION_CODE,
+  ADDRESS_HINT_REQUESTER_AREA,
+  ADDRESS_HINT_REQUESTER_CITY,
+  ADDRESS_HINT_REQUESTER_SETTLEMENT,
+  ADDRESS_HINT_REQUESTER_STREET,
+  ADDRESS_HINT_REQUESTER_HOUSE,
+  ADDRESS_HINT_REQUESTER_BLOCK,
+  ADDRESS_HINT_REQUESTER_FULL,
+  addressHintRequester } from '../api/index';
+
+import HintedAddressInputView from './HintedAddressInputView/index';
+
+class HintedAddressInput extends Component {
+  displayName = 'HintedAddressInput';
 
   static propTypes = {
-    defaultText: PropTypes.string,
     apiKey: PropTypes.string,
     apiURL: PropTypes.string,
+    type: PropTypes.oneOf([
+      ADDRESS_HINT_REQUESTER_POSTAL_CODE,
+      ADDRESS_HINT_REQUESTER_REGION_CODE,
+      ADDRESS_HINT_REQUESTER_AREA,
+      ADDRESS_HINT_REQUESTER_CITY,
+      ADDRESS_HINT_REQUESTER_SETTLEMENT,
+      ADDRESS_HINT_REQUESTER_STREET,
+      ADDRESS_HINT_REQUESTER_HOUSE,
+      ADDRESS_HINT_REQUESTER_BLOCK,
+      ADDRESS_HINT_REQUESTER_FULL,
+    ]).isRequired,
+    defaultText: PropTypes.string,
+    query: PropTypes.shape({
+      fullAddress: PropTypes.string,
+      postalCode: PropTypes.string,
+      regionCode: PropTypes.string,
+      area: PropTypes.string,
+      city: PropTypes.string,
+      settlement: PropTypes.string,
+      street: PropTypes.string,
+      house: PropTypes.string,
+      block: PropTypes.string,
+    }).isRequired,
     onKeyPress: PropTypes.func,
     onUpdate: PropTypes.func,
     onChange: PropTypes.func,
   };
 
   static defaultProps = {
-    defaultText: '',
     apiKey: '',
     apiURL: '',
+    defaultText: '',
     onKeyPress: undefined,
     onUpdate: undefined,
     onChange: undefined,
@@ -36,11 +69,10 @@ class HintedEmailInput extends Component {
     super(props);
     const {
       defaultText,
-      onSelect,
-      onUpdate,
+      type,
       onChange,
+      onUpdate,
       onKeyPress,
-      ...othersProps
     } = this.props;
 
     this.defaultState = {
@@ -49,19 +81,17 @@ class HintedEmailInput extends Component {
         title: defaultText,
       },
       hints: [],
+      type,
     };
 
     this.state = this.defaultState;
     this.requestDelayTimer = null;
 
     this.callbacks = {
-      onSelect,
       onUpdate,
       onChange,
       onKeyPress,
     };
-
-    this.othersProps = othersProps;
   }
 
   componentWillUnmount() {
@@ -77,12 +107,11 @@ class HintedEmailInput extends Component {
   }
 
   onKeyPress = (event) => {
-    const { onUpdate, onKeyPress } = this.callbacks;
+    const { onKeyPress } = this.callbacks;
     if ((event.charCode === 13)
       || (event.keyCode === 13)
       || (event.key === 'Enter')) {
       clearTimeout(this.requestDelayTimer);
-      if (onUpdate) { onUpdate(event); }
     }
     if (onKeyPress) { onKeyPress(event); }
   }
@@ -107,16 +136,41 @@ class HintedEmailInput extends Component {
   }
 
   onUpdate = (event) => {
-    const { onUpdate } = this.callbacks;
     clearTimeout(this.requestDelayTimer);
-    if (onUpdate) { onUpdate(event.text); }
+    if (onUpdate) { onUpdate(event); }
   }
 
   onSelect = (event) => {
     const { onUpdate } = this.callbacks;
-    const selectedText = event ? event.title : '';
-    if (onUpdate) { onUpdate(selectedText); }
-    this.onChange(selectedText);
+    const { type } = this.state;
+    const selectedObject = {
+        type,
+        value: event ? event.title: '',
+        fias: event ? event.fias: '',
+      };
+    if (onUpdate) { onUpdate(selectedObject); }
+    this.onChange(selectedObject.value);
+  }
+
+  makeQueryString = ({ type, query, inputedText }) => {
+    if (type === ADDRESS_HINT_REQUESTER_FULL) {
+      return inputedText;
+    }
+    const newQuery = {...query};
+    newQuery[type] = inputedText;
+
+    const retArray = [];
+    switch (type) {
+      case ADDRESS_HINT_REQUESTER_BLOCK: retArray.push(newQuery.block);
+      case ADDRESS_HINT_REQUESTER_HOUSE: retArray.push(newQuery.house);
+      case ADDRESS_HINT_REQUESTER_STREET: retArray.push(newQuery.street);
+      case ADDRESS_HINT_REQUESTER_SETTLEMENT: retArray.push(newQuery.settlement);
+      case ADDRESS_HINT_REQUESTER_CITY: retArray.push(newQuery.city);
+      case ADDRESS_HINT_REQUESTER_AREA: retArray.push(newQuery.area);
+      case ADDRESS_HINT_REQUESTER_REGION_CODE: retArray.push(newQuery.regionCode);
+      case ADDRESS_HINT_REQUESTER_POSTAL_CODE: retArray.push(newQuery.postalCode);
+    }
+    return retArray.reverse().join(' ');
   }
 
   requestHint = () => {
@@ -126,10 +180,12 @@ class HintedEmailInput extends Component {
     }
 
     const { text } = this.state;
-    emailHintRequester({
+    const { type, query } = this.props;
+    addressHintRequester({
       apiURL,
       apiKey,
-      query: text.title,
+      partOfAddress: type,
+      query: this.makeQueryString({ type, query, inputedText: text.title }),
       onHintsReceive: this.receivedHint,
     });
   }
@@ -143,7 +199,8 @@ class HintedEmailInput extends Component {
     this.setState({
       hints: updatedHints.map(item => ({
         id: 0,
-        title: item,
+        title: item.title,
+        fias: item.fiasId,
       }))
     });
   }
@@ -151,10 +208,11 @@ class HintedEmailInput extends Component {
   render() {
     const {
       defaultText,
+      type,
+      query,
       onChange,
       onUpdate,
       onKeyPress,
-      onSelect,
       ...othersProps
     } = this.props;
 
@@ -168,7 +226,7 @@ class HintedEmailInput extends Component {
       : [];
 
     return (
-      <HintedEmailInputView
+      <HintedAddressInputView
         onUpdate={this.onUpdate}
         onChange={this.onChange}
         onKeyPress={this.onKeyPress}
@@ -183,4 +241,5 @@ class HintedEmailInput extends Component {
   }
 }
 
-export default withTheme(HintedEmailInput);
+export default HintedAddressInput;
+
