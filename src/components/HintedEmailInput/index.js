@@ -149,6 +149,15 @@ class HintedEmailInput extends Component {
   }
 
   render() {
+    const {
+      defaultText,
+      onChange,
+      onUpdate,
+      onKeyPress,
+      onSelect,
+      ...othersProps
+    } = this.props;
+
     const { hints, text } = this.state;
     const filteredHints = hints !== []
       ? hints.filter(item => item.title !== text.title)
@@ -168,7 +177,7 @@ class HintedEmailInput extends Component {
         hideOptionList={hintList.length < 2}
         hints={hintList}
         filterDisable
-        {...this.othersProps}
+        {...othersProps}
       />
     );
   }
