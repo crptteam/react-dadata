@@ -72,7 +72,6 @@
   "repository": "https://github.com/crptteam/react-dadata",
   "keywords": ["react-component"],
   "jest": {
-    "testEnvironment": "node",
     "collectCoverageFrom": ["src/**/*.{js,jsx}"],
     "verbose": true,
     "transformIgnorePatterns": ["/node_modules/(?!react).+(js|jsx)$"],
