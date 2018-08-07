@@ -24,4 +24,4 @@ deploy:
   api_key: $NPM_TOKEN
   tag: latest
   on:
-    repo: crptteam/react-button
+    repo: crptteam/react-dadata
