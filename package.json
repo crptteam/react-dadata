@@ -72,6 +72,7 @@
   "repository": "https://github.com/crptteam/react-dadata",
   "keywords": ["react-component"],
   "jest": {
+    "testEnvironment": "node",
     "collectCoverageFrom": ["src/**/*.{js,jsx}"],
     "verbose": true,
     "transformIgnorePatterns": ["/node_modules/(?!react).+(js|jsx)$"],
@@ -79,6 +80,7 @@
     "setupFiles": ["./tests/jestsetup.js"],
     "snapshotSerializers": ["enzyme-to-json/serializer"]
   },
+
   "babel": {
     "presets": ["env", "react"],
     "plugins": [
