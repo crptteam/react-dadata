@@ -18,7 +18,7 @@
     "test:watch": "NODE_ENV=test jest --watch"
   },
   "dependencies": {
-    "@crpt/react-select": "^1.0.24",
+    "@crpt/react-select": "1.0.29",
     "axios": "^0.18.0",
     "styled-components": "^3.3.3"
   },
