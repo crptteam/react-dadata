@@ -1,10 +1,15 @@
 {
   "name": "@crpt/react-dadata",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "react-dadata is hinted input fields react component",
   "main": "lib/index.js",
   "module": "es/index.js",
-  "files": ["css", "es", "lib", "umd"],
+  "files": [
+    "css",
+    "es",
+    "lib",
+    "umd"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -65,24 +70,40 @@
     "react-dom": "^16.4.0",
     "react-test-renderer": "^16.4.0"
   },
-  "contributors": ["Aleksey Zakharov"],
+  "contributors": [
+    "Aleksey Zakharov"
+  ],
   "author": "",
   "homepage": "https://github.com/crptteam/react-dadata",
   "license": "MIT",
   "repository": "https://github.com/crptteam/react-dadata",
-  "keywords": ["react-component"],
+  "keywords": [
+    "react-component"
+  ],
   "jest": {
     "testURL": "http://localhost/",
-    "collectCoverageFrom": ["src/**/*.{js,jsx}"],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
     "verbose": true,
-    "transformIgnorePatterns": ["/node_modules/(?!react).+(js|jsx)$"],
-    "moduleDirectories": ["node_modules"],
-    "setupFiles": ["./tests/jestsetup.js"],
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "transformIgnorePatterns": [
+      "/node_modules/(?!react).+(js|jsx)$"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "setupFiles": [
+      "./tests/jestsetup.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
-
   "babel": {
-    "presets": ["env", "react"],
+    "presets": [
+      "env",
+      "react"
+    ],
     "plugins": [
       "transform-class-properties",
       "transform-es2015-destructuring",
@@ -103,10 +124,14 @@
     ],
     "env": {
       "production": {
-        "plugins": ["transform-es2015-modules-commonjs"]
+        "plugins": [
+          "transform-es2015-modules-commonjs"
+        ]
       },
       "test": {
-        "plugins": ["transform-es2015-modules-commonjs"]
+        "plugins": [
+          "transform-es2015-modules-commonjs"
+        ]
       }
     }
   }
