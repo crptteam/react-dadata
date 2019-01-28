@@ -70,6 +70,17 @@ class HintedEmailInput extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.defaultText !== this.props.defaultText) {
+      this.setState({
+        text: {
+          id: BASE_HINT_ID,
+          title: this.props.defaultText,
+        }
+      })
+    }
+  }
+
   clear = () => {
     this.setState(this.defaultState);
     if (onChange) { onChange(this.defaultState.text.title) };

@@ -110,9 +110,9 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@crpt/react-select@^1.0.24":
-  version "1.0.25"
-  resolved "https://registry.yarnpkg.com/@crpt/react-select/-/react-select-1.0.25.tgz#9ddc99ee20a53f30d06a0e09ef4537590866ab14"
+"@crpt/react-select@1.0.29":
+  version "1.0.29"
+  resolved "https://registry.yarnpkg.com/@crpt/react-select/-/react-select-1.0.29.tgz#3e1f02ca9b30875acd04402ad0492bca68d37721"
   dependencies:
     codecov.io "^0.1.6"
     coveralls "^3.0.2"
