@@ -74,7 +74,7 @@ class HintedEmailInput extends Component {
     if (prevProps.defaultText !== this.props.defaultText) {
       this.setState({
         text: {
-          id: BASE_HINT_ID,
+          id: this.state.text.id !== undefined ? this.state.text.id + 1 : BASE_HINT_ID,
           title: this.props.defaultText,
         }
       })
@@ -178,13 +178,16 @@ class HintedEmailInput extends Component {
       ? ([{ ...text }, ...filteredHints])
       : [];
 
+
+    const selectedId = hintList.length !== 0 ? text.id : null;
+
     return (
       <HintedEmailInputView
         onUpdate={this.onUpdate}
         onChange={this.onChange}
         onKeyPress={this.onKeyPress}
         onSelect={this.onSelect}
-        selectedId={hintList.length !== 0 ? BASE_HINT_ID : null}
+        selectedId={selectedId}
         hideOptionList={hintList.length < 2}
         hints={hintList}
         filterDisable
