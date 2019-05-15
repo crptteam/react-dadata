@@ -57,6 +57,21 @@ export const addressHintRequester = (props) => {
     partOfAddress,
     onHintsReceive,
   } = props;
+  let addressComponents;
+  switch (partOfAddress) {
+    case 'region':
+    case 'area':
+    case 'city':
+    case 'settlement':
+    case 'street':
+      addressComponents = {
+        'from_bound': { 'value': partOfAddress },
+        'to_bound': { 'value': partOfAddress }
+      }
+      break;
+    default:
+      addressComponents = {};
+  }
   PropTypes.checkPropTypes(propTypes, props, 'prop', 'addressHintRequester');
   axios({
     method: 'post',
@@ -66,9 +81,7 @@ export const addressHintRequester = (props) => {
       Authorization: `Token ${apiKey}`,
     },
     responseType: 'json',
-    data: {
-      query,
-    },
+    data: Object.assign({}, {query: query}, addressComponents),
   })
     .then((responsedJSON) => {
       const addrHints = responsedJSON.data.suggestions.map(item => suggestionFilter({ type: partOfAddress, source: item }));
