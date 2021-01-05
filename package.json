@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@crpt/react-select": "1.0.29",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "styled-components": "^3.3.3"
   },
   "peerDependencies": {
